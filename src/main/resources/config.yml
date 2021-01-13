@@ -38,7 +38,7 @@ kits:
     items:
     - 272 1
     - 273 1
-    - diamond_pickaxe 1 detonate:9 autosmelt:3
+    - diamond_pickaxe 1 explosive:9 keyfinder:3
     - 275 1
   dtools:
     delay: 600
