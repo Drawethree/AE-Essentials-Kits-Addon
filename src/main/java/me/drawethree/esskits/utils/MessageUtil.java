@@ -1,6 +1,6 @@
-package gc.aeaddon.esskits.utils;
+package me.drawethree.esskits.utils;
 
-import gc.aeaddon.esskits.Core;
+import me.drawethree.esskits.Core;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

@@ -1,4 +1,4 @@
-# AEEssentialsKitsAddon by GC
+# UPEssentialsKitsAddon by Drawethree
 # Replaces Essentials' kits with a custom system to support NBT enchants
 
 # Global placeholders:
@@ -12,8 +12,8 @@
 # Set delay to -1 for a one time kit.
 # For more information, visit http://wiki.ess3.net/wiki/Kits
 
-# For AE Custom Enchantments, you must use same syntax as for vanilla enchants with essentials, e.g.:
-# 'diamond_pickaxe 1 detonate:9 autosmelt:3' - 'Enchantment:Level'
+# For UltraPrison Custom Enchantments, you must use same syntax as for vanilla enchants with essentials, e.g.:
+# 'diamond_pickaxe 1 explosive:9 keyfinder:3' - 'Enchantment:Level'
 
 # Thanks to drtshock for maintaining EssentialsX!
 

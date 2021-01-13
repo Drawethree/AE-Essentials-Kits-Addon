@@ -1,0 +1,11 @@
+name: UPEssentialsKitsAddon
+main: me.drawethree.esskits.Core
+version: 1.0.0
+author: "Drawethree"
+depend:
+  - Essentials
+  - UltraPrisonCore
+commands:
+  kit:
+    aliases: [ekit, ekits, kits, givekit, essentialskit]
+    description: "Kits"

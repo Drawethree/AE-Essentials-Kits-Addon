@@ -1,6 +1,6 @@
-package gc.aeaddon.esskits.handlers;
+package me.drawethree.esskits.handlers;
 
-import gc.aeaddon.esskits.Core;
+import me.drawethree.esskits.Core;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;

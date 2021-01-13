@@ -1,9 +1,9 @@
-package gc.aeaddon.esskits;
+package me.drawethree.esskits;
 
 import com.earth2me.essentials.Essentials;
-import gc.aeaddon.esskits.commands.KitsCommand;
-import gc.aeaddon.esskits.handlers.CooldownManager;
-import gc.aeaddon.esskits.handlers.KitsManager;
+import me.drawethree.esskits.commands.KitsCommand;
+import me.drawethree.esskits.handlers.CooldownManager;
+import me.drawethree.esskits.handlers.KitsManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Core extends JavaPlugin {

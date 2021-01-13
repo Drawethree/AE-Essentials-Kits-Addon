@@ -1,11 +1,10 @@
-package gc.aeaddon.esskits.handlers;
+package me.drawethree.esskits.handlers;
 
-import gc.aeaddon.esskits.Core;
+import me.drawethree.esskits.Core;
 import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,8 +14,7 @@ public class KitsManager {
 
     public KitsManager(JavaPlugin instance) {
         kits.addAll(instance.getConfig().getConfigurationSection("kits").getKeys(false));
-        instance.getLogger().info("Loaded "+kits.size()+ " kits.");
-
+        instance.getLogger().info("Loaded " + kits.size() + " kits.");
     }
 
     public List<String> getKits() {
@@ -24,17 +22,17 @@ public class KitsManager {
     }
 
     public List<String> getKitItems(String kit) {
-        return Core.getInstance().getConfig().getStringList("kits."+kit+".items");
+        return Core.getInstance().getConfig().getStringList("kits." + kit + ".items");
     }
 
     public long getCooldown(String kit) {
-        return Core.getInstance().getConfig().getInt("kits."+kit+".delay")*1000L;
+        return Core.getInstance().getConfig().getInt("kits." + kit + ".delay") * 1000L;
     }
 
     public String getCooldownMessage(UUID u, String kit) {
         long next_use = Core.getCooldownManager().getCooldown(u, kit);
         long next = (next_use - System.currentTimeMillis()) / 1000L;
-        if(next < 0) {
+        if (next < 0) {
             return "Available now.";
         }
 

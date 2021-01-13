@@ -1,10 +1,11 @@
-package gc.aeaddon.esskits.commands;
+package me.drawethree.esskits.commands;
 
 import com.earth2me.essentials.MetaItemStack;
 import com.earth2me.essentials.craftbukkit.InventoryWorkaround;
-import gc.aeaddon.esskits.Core;
-import gc.aeaddon.esskits.utils.MessageUtil;
-import n3kas.ae.api.AEAPI;
+import me.drawethree.esskits.Core;
+import me.drawethree.esskits.utils.MessageUtil;
+import me.drawethree.ultraprisoncore.UltraPrisonCore;
+import me.drawethree.ultraprisoncore.enchants.enchants.UltraPrisonEnchantment;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -18,10 +19,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/** Code bits used from https://github.com/EssentialsX/Essentials/blob/2.x/Essentials/src/com/earth2me/essentials/Kit.java
- *  repository to create essentials-like kits configuration.
- *
- *  Thanks to drtshock and others for maintaining EssentialsX.
+/**
+ * Code bits used from https://github.com/EssentialsX/Essentials/blob/2.x/Essentials/src/com/earth2me/essentials/Kit.java
+ * repository to create essentials-like kits configuration.
+ * <p>
+ * Thanks to drtshock and others for maintaining EssentialsX.
  */
 
 public class KitsCommand implements CommandExecutor {
@@ -66,7 +68,7 @@ public class KitsCommand implements CommandExecutor {
             return true;
         }
 
-        if(target.getName().equalsIgnoreCase(sender.getName())) {
+        if (target.getName().equalsIgnoreCase(sender.getName())) {
             if (!target.hasPermission(p_kitPermission + arg)) {
                 MessageUtil.sendMessage(sender, "messages.no-permission", "%kit%;" + arg);
                 return true;
@@ -75,7 +77,7 @@ public class KitsCommand implements CommandExecutor {
             if (!target.hasPermission(p_exemptPermission)) {
                 if (!Core.getCooldownManager().canUse(target.getUniqueId(), arg)) {
                     MessageUtil.sendMessage(target, "messages.kit-cooldown",
-                            "%time%;"+Core.getKitsManager().getCooldownMessage(target.getUniqueId(), arg));
+                            "%time%;" + Core.getKitsManager().getCooldownMessage(target.getUniqueId(), arg));
                     return true;
                 }
             }
@@ -91,16 +93,18 @@ public class KitsCommand implements CommandExecutor {
                 }
 
                 String[] data = kitItem.split(" ");
-                HashMap<String, Integer> customEnchants = new HashMap<>();
-                for(String item : data) {
+                HashMap<UltraPrisonEnchantment, Integer> customEnchants = new HashMap<>();
+                for (String item : data) {
                     String[] enchant = item.split(":");
-                    if(enchant.length == 1)
+                    if (enchant.length == 1)
                         continue;
                     String ae = enchant[0];
-                    if(!isEnchant(ae))
+                    if (!isEnchant(ae))
                         continue;
 
-                    customEnchants.put(ae,
+                    UltraPrisonEnchantment enchantment = UltraPrisonEnchantment.getEnchantByName(ae);
+
+                    customEnchants.put(enchantment,
                             Integer.parseInt(enchant[1]
                                     .replaceAll("[^0-9]", "")));
                     kitItem = kitItem.replace(item, "");
@@ -119,9 +123,10 @@ public class KitsCommand implements CommandExecutor {
                     metaStack.parseStringMeta(null, true, parts, 2, Core.getEss());
                 }
                 ItemStack item = metaStack.getItemStack();
-                if(!customEnchants.isEmpty()) {
-                    for(Map.Entry<String, Integer> enchant : customEnchants.entrySet()) {
-                        item = AEAPI.applyEnchant(enchant.getKey(), enchant.getValue(), item);
+
+                if (!customEnchants.isEmpty()) {
+                    for (Map.Entry<UltraPrisonEnchantment, Integer> enchant : customEnchants.entrySet()) {
+                        item = UltraPrisonCore.getInstance().getEnchants().getApi().addEnchant(item, enchant.getKey().getId(), enchant.getValue());
                     }
                 }
 
@@ -138,12 +143,12 @@ public class KitsCommand implements CommandExecutor {
                     spew = true;
                 }
             }
-            if(spew) {
+            if (spew) {
                 MessageUtil.sendMessage(target, "messages.inv-full");
             }
 
-            MessageUtil.sendMessage(target, "messages.kit-received", "%kit%;"+arg);
-            Core.getCooldownManager().setCooldown(target.getUniqueId(), arg, System.currentTimeMillis()+Core.getKitsManager().getCooldown(arg));
+            MessageUtil.sendMessage(target, "messages.kit-received", "%kit%;" + arg);
+            Core.getCooldownManager().setCooldown(target.getUniqueId(), arg, System.currentTimeMillis() + Core.getKitsManager().getCooldown(arg));
 
             target.updateInventory();
         } catch (Exception ev) {
@@ -154,7 +159,8 @@ public class KitsCommand implements CommandExecutor {
 
         return true;
     }
+
     private boolean isEnchant(String ench) {
-        return AEAPI.getAllEnchantments().contains(ench.toLowerCase());
+        return UltraPrisonCore.getInstance().getEnchants().getApi().getByName(ench) != null;
     }
 }
