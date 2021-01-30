@@ -14,6 +14,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashMap;
 import java.util.List;
@@ -107,6 +108,7 @@ public class KitsCommand implements CommandExecutor {
                     customEnchants.put(enchantment,
                             Integer.parseInt(enchant[1]
                                     .replaceAll("[^0-9]", "")));
+
                     kitItem = kitItem.replace(item, "");
                 }
 
@@ -123,6 +125,14 @@ public class KitsCommand implements CommandExecutor {
                     metaStack.parseStringMeta(null, true, parts, 2, Core.getEss());
                 }
                 ItemStack item = metaStack.getItemStack();
+
+                ItemMeta meta = item.getItemMeta();
+
+                if (meta.getLore() != null) {
+                    for (int i = 0; i < meta.getLore().size(); i++) {
+                        meta.getLore().set(i, replacePlaceholders(meta.getLore().get(i), target));
+                    }
+                }
 
                 if (!customEnchants.isEmpty()) {
                     for (Map.Entry<UltraPrisonEnchantment, Integer> enchant : customEnchants.entrySet()) {
@@ -147,6 +157,7 @@ public class KitsCommand implements CommandExecutor {
                 MessageUtil.sendMessage(target, "messages.inv-full");
             }
 
+
             MessageUtil.sendMessage(target, "messages.kit-received", "%kit%;" + arg);
             Core.getCooldownManager().setCooldown(target.getUniqueId(), arg, System.currentTimeMillis() + Core.getKitsManager().getCooldown(arg));
 
@@ -158,6 +169,10 @@ public class KitsCommand implements CommandExecutor {
 
 
         return true;
+    }
+
+    private String replacePlaceholders(String input, Player target) {
+        return input.replace("{PLAYER}", target.getName()).replace("{player}", target.getName());
     }
 
     private boolean isEnchant(String ench) {
