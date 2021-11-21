@@ -136,7 +136,7 @@ public class KitsCommand implements CommandExecutor {
 
                 if (!customEnchants.isEmpty()) {
                     for (Map.Entry<UltraPrisonEnchantment, Integer> enchant : customEnchants.entrySet()) {
-                        item = UltraPrisonCore.getInstance().getEnchants().getApi().addEnchant(item, enchant.getKey().getId(), enchant.getValue());
+                        item = UltraPrisonCore.getInstance().getEnchants().getApi().setEnchantLevel(item, enchant.getKey().getId(), enchant.getValue());
                     }
                 }
 
